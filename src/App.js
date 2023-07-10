@@ -353,9 +353,9 @@ function App() {
     <td>{row.Wins}</td>
     <td>{row.Losses}</td>
     <td>
-      <button className="delete-button" onClick={() => handleDeletePlayer(row)}>
+      {/* <button className="delete-button" onClick={() => handleDeletePlayer(row)}>
         Delete ❌
-      </button>
+      </button> */}
     </td>
   </tr>
 ))}
@@ -411,9 +411,9 @@ function App() {
       </li>
     ))}
   </ul>
-  <button className="delete-button" onClick={handleDeleteAllMatches}>
+  {/* <button className="delete-button" onClick={handleDeleteAllMatches}>
     Delete All Matches
-  </button>
+  </button> */}
 </div>
 
    
@@ -431,12 +431,12 @@ function App() {
       <p>No previous matches found.</p>
     )}
 
-    {/* Button to delete all previous matches */}
+    {/* Button to delete all previous matches
     {matchHistory.length > 0 && (
       <button className="delete-button" onClick={handleDeleteAllPreviousMatches}>
         Delete All Previous Matches
       </button>
-    )}
+    )} */}
 
 
     </div>
