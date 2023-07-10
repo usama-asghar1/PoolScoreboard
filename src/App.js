@@ -28,6 +28,9 @@ function App() {
       setTableData(data);
     }
   };
+
+  const [currentMatch, setCurrentMatch] = useState(null);
+
   
   const generateMatches = () => {
     const matches = [];
@@ -43,12 +46,14 @@ function App() {
         const match1 = `${person1} vs ${person2}`;
         const match2 = `${person2} vs ${person1}`;
   
-        // Exclude the finished matches and duplicates
+        // Exclude the finished matches, duplicates, and current match
         if (
           !finishedMatches.includes(match1) &&
           !finishedMatches.includes(match2) &&
           !matches.includes(match1) &&
-          !matches.includes(match2)
+          !matches.includes(match2) &&
+          match1 !== currentMatch &&
+          match2 !== currentMatch
         ) {
           matches.push(match1);
         }
@@ -56,6 +61,7 @@ function App() {
     }
     return matches;
   };
+  
   
    
 
@@ -361,41 +367,54 @@ function App() {
       Add Player
     </button>
 
-      <h2>All Matches</h2>
-      <div className="matches-container">
-      <p>Who won?</p>
-      <ul>
-        {generateMatches().map((match, index) => (
-          <li key={index}>
-            <span>{match}</span>
-            <select
-                className="select-dropdown"
-                value={winners[match] || ''}
-                onChange={(e) => handleWinnerSelect(match, e.target.value)}
-              >
-                <option value="">Choose winner</option>
-                <option value={match.split(' vs ')[0]}>
-                  {match.split(' vs ')[0]}
-                </option>
-                <option value={match.split(' vs ')[1]}>
-                  {match.split(' vs ')[1]}
-                </option>
-              </select>
-            <button
-              className="submit-button"
-              disabled={!winners[match]}
-              onClick={() => handleSubmit(match)}
-            >
-              Submit
-            </button>
-          </li>
-        ))}
-      </ul>
-      <button className="delete-button" onClick={handleDeleteAllMatches}>
-        Delete All Matches
-      </button>
+    <h2>Current Match</h2>
+{currentMatch ? (
+  <div>
+    <p>{currentMatch}</p>
+    <select
+      className="select-dropdown"
+      value={winners[currentMatch] || ''}
+      onChange={(e) => handleWinnerSelect(currentMatch, e.target.value)}
+    >
+      <option value="">Choose winner</option>
+      <option value={currentMatch.split(' vs ')[0]}>
+        {currentMatch.split(' vs ')[0]}
+      </option>
+      <option value={currentMatch.split(' vs ')[1]}>
+        {currentMatch.split(' vs ')[1]}
+      </option>
+    </select>
+    <button
+      className="submit-button"
+      disabled={!winners[currentMatch]}
+      onClick={() => handleSubmit(currentMatch)}
+    >
+      Submit
+    </button>
+  </div>
+) : (
+  <p>No current match.</p>
+)}
 
-    </div>
+<h2>All Matches</h2>
+<div className="matches-container">
+  <ul>
+    {generateMatches().map((match, index) => (
+      <li key={index}>
+        <span>{match}</span>
+        <button
+          className="select-button"
+          onClick={() => setCurrentMatch(match)}
+        >
+          Select
+        </button>
+      </li>
+    ))}
+  </ul>
+  <button className="delete-button" onClick={handleDeleteAllMatches}>
+    Delete All Matches
+  </button>
+</div>
 
    
     <h2>Previous Matches</h2>
