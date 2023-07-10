@@ -36,3 +36,14 @@ ul li {
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+.add-player-button {
+  padding: 10px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  margin: 10px;
+}

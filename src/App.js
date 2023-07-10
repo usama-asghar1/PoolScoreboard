@@ -10,20 +10,21 @@ function App() {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    const fetchTableData = async () => {
-      const { data, error } = await supabase
-        .from('Leaderboard')
-        .select('*')
-        .order('Wins', { ascending: false }); // Order by Wins column in descending order
-      if (error) {
-        console.error('Error fetching table data:', error);
-      } else {
-        setTableData(data);
-      }
-    };
-  
+     
     fetchTableData();
   }, []);
+
+  const fetchTableData = async () => {
+    const { data, error } = await supabase
+      .from('Leaderboard')
+      .select('*')
+      .order('Wins', { ascending: false }); // Order by Wins column in descending order
+    if (error) {
+      console.error('Error fetching table data:', error);
+    } else {
+      setTableData(data);
+    }
+  };
   
   const generateMatches = () => {
     const matches = [];
@@ -58,11 +59,24 @@ function App() {
       try {
         const { data, error } = await supabase
           .from('Leaderboard')
-          .update({ Wins: supabase.sql('Wins + 1') })
-          .eq('Name', person);
+          .select('Wins')
+          .eq('Name', person)
+          .single();
   
         if (error) {
-          console.error('Error updating wins:', error);
+          console.error('Error fetching wins:', error);
+          return;
+        }
+  
+        const updatedWins = data.Wins + 1;
+  
+        const { error: updateError } = await supabase
+          .from('Leaderboard')
+          .update({ Wins: updatedWins })
+          .eq('Name', person);
+  
+        if (updateError) {
+          console.error('Error updating wins:', updateError);
         } else {
           console.log(`Successfully updated wins for ${person}`);
         }
@@ -71,14 +85,37 @@ function App() {
       }
     };
 
-    const handleSubmit = (match) => {
+    const handleSubmit = async (match) => {
       const winner = winners[match];
       if (winner) {
-        updateWins(winner);
+        await updateWins(winner);
+        await fetchTableData(); // Fetch the updated table data
       } else {
         console.error('No winner selected for match:', match);
       }
     };
+    
+    const handleAddPlayer = async () => {
+      const playerName = prompt("Enter the name of the new player:");
+    
+      if (playerName) {
+        try {
+          const { data, error } = await supabase
+            .from("Leaderboard")
+            .insert([{ Name: playerName, Wins: 0, Losses: 0 }]);
+    
+          if (error) {
+            console.error("Error adding player:", error);
+          } else {
+            console.log("Player added successfully.");
+            fetchTableData(); // Fetch the updated table data
+          }
+        } catch (error) {
+          console.error("Error adding player:", error);
+        }
+      }
+    };
+    
 
   return (
     <div className="App">
@@ -103,6 +140,10 @@ function App() {
           ))}
         </tbody>
       </table>
+      
+    <button className="add-player-button" onClick={handleAddPlayer}>
+      Add Player
+    </button>
 
       <h2>All Matches</h2>
       <div className="matches-container">
