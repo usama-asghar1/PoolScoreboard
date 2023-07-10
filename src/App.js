@@ -363,9 +363,9 @@ function App() {
         </tbody>
       </table>
       
-    <button className="add-player-button" onClick={handleAddPlayer}>
+    {/* <button className="add-player-button" onClick={handleAddPlayer}>
       Add Player
-    </button>
+    </button> */}
 
     <h2>Current Match</h2>
 {currentMatch ? (
