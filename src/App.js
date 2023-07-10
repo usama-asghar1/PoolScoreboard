@@ -39,17 +39,25 @@ function App() {
       // Iterate over other persons
       for (let j = i + 1; j < tableData.length; j++) {
         const person2 = tableData[j].Name;
-        const match = `${person1} vs ${person2}`;
   
-        // Exclude the finished matches
-        if (!finishedMatches.includes(match)) {
-          matches.push(match);
+        const match1 = `${person1} vs ${person2}`;
+        const match2 = `${person2} vs ${person1}`;
+  
+        // Exclude the finished matches and duplicates
+        if (
+          !finishedMatches.includes(match1) &&
+          !finishedMatches.includes(match2) &&
+          !matches.includes(match1) &&
+          !matches.includes(match2)
+        ) {
+          matches.push(match1);
         }
       }
     }
     return matches;
   };
   
+   
 
   
     // State to track the selected winner for each match
@@ -128,76 +136,82 @@ function App() {
     const [matchHistory, setMatchHistory] = useState([]);
     
 
-    const fetchMatchHistory = () => {
-      return supabase
-        .from('MatchHistory')
-        .select('*')
-        .order('id', { ascending: false }) // Order by id column in descending order
-        .then(({ data, error }) => {
-          if (error) {
-            console.error('Error fetching match history:', error);
-            throw error;
-          } else {
-            setMatchHistory(data);
-            return data; // Return the fetched data
-          }
-        })
-        .catch((error) => {
+    const fetchMatchHistory = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('FinishedMatches')
+          .select('*');
+    
+        if (error) {
           console.error('Error fetching match history:', error);
-          throw error;
-        });
+        } else {
+          const finishedMatches = data.map((match) => match.match);
+          setFinishedMatches(finishedMatches);
+          setMatchHistory(data);
+        }
+      } catch (error) {
+        console.error('Error fetching match history:', error);
+      }
     };
+    
     
     useEffect(() => {
       fetchMatchHistory();
     }, []);
     
-    
-    
-    
-    
-
+        
     const handleSubmit = async (match) => {
       const [person1, person2] = match.split(' vs ');
       const winner = winners[match];
     
       if (winner) {
         const loser = winner === person1 ? person2 : person1;
-        
+    
+        // Update the wins and losses
         await Promise.all([updateWins(winner), updateLosses(loser)]);
         await fetchTableData(); // Fetch the updated table data
-       // Fetch the updated match history
     
-       setFinishedMatches(prevState => [...prevState, match]);
-       setWinners(prevState => ({ ...prevState, [match]: winner }));
-     
-       await fetchMatchHistory(); // Fetch the updated match history
+        // Store the match result in the FinishedMatches table
         try {
           const { data, error } = await supabase
-            .from('MatchHistory')
+            .from('FinishedMatches')
             .insert([{ match, winner }]);
             console.log(data);
-      
+    
           if (error) {
             console.error('Error storing match result:', error);
           } else {
-            console.log('Match result stored successfully.');
+            console.log('Match result stored in FinishedMatches table successfully.');
+            setFinishedMatches(prevState => [...prevState, match]);
           }
         } catch (error) {
           console.error('Error storing match result:', error);
         }
     
-        setFinishedMatches(prevState => [...prevState, match]);
+        // Store the match result in the MatchHistory table
+        try {
+          const { data, error } = await supabase
+            .from('MatchHistory')
+            .insert([{ match, winner }]);
+            console.log(data);
+    
+          if (error) {
+            console.error('Error storing match result:', error);
+          } else {
+            console.log('Match result stored in MatchHistory table successfully.');
+            await fetchMatchHistory(); // Fetch the updated match history
+          }
+        } catch (error) {
+          console.error('Error storing match result:', error);
+        }
+    
         setWinners(prevState => ({ ...prevState, [match]: winner }));
-        await fetchMatchHistory();
       } else {
         console.error('No winner selected for match:', match);
       }
     };
     
-    
-    
-    
+        
     const handleAddPlayer = async () => {
       const playerName = prompt("Enter the name of the new player:");
     
@@ -239,6 +253,79 @@ function App() {
       }
     };
   
+    const handleDeleteAllMatches = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('FinishedMatches')
+          .select('id');
+    
+        if (error) {
+          console.error('Error fetching match data:', error);
+          return;
+        }
+    
+        const matchIds = data.map((match) => match.id);
+    
+        if (matchIds.length === 0) {
+          console.log('No matches found.');
+          return;
+        }
+    
+        const { error: deleteError } = await supabase
+          .from('FinishedMatches')
+          .delete()
+          .in('id', matchIds);
+    
+        if (deleteError) {
+          console.error('Error deleting all matches:', deleteError);
+        } else {
+          setFinishedMatches([]); // Clear the finishedMatches state
+          console.log('All matches deleted successfully.');
+        }
+      } catch (error) {
+        console.error('Error deleting all matches:', error);
+      }
+    };
+    
+    
+    const handleDeleteAllPreviousMatches = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('MatchHistory')
+          .select('id');
+    
+        if (error) {
+          console.error('Error fetching match history:', error);
+          return;
+        }
+    
+        const matchIds = data.map((match) => match.id);
+    
+        if (matchIds.length === 0) {
+          console.log('No previous matches found.');
+          return;
+        }
+    
+        const { error: deleteError } = await supabase
+          .from('MatchHistory')
+          .delete()
+          .in('id', matchIds);
+    
+        if (deleteError) {
+          console.error('Error deleting all previous matches:', deleteError);
+        } else {
+          setMatchHistory([]); // Clear the match history in the state
+          console.log('All previous matches deleted successfully.');
+        }
+      } catch (error) {
+        console.error('Error deleting all previous matches:', error);
+      }
+    };
+    
+    
+    
+    
+    
     
   return (
     <div className="App">
@@ -304,11 +391,15 @@ function App() {
           </li>
         ))}
       </ul>
+      <button className="delete-button" onClick={handleDeleteAllMatches}>
+        Delete All Matches
+      </button>
+
     </div>
 
    
     <h2>Previous Matches</h2>
-{matchHistory.length > 0 && (
+    {matchHistory.length > 0 ? (
   <ul>
     {matchHistory.map((match, index) => (
       <li key={index}>
@@ -317,7 +408,16 @@ function App() {
       </li>
     ))}
   </ul>
-)}
+  ) : (
+      <p>No previous matches found.</p>
+    )}
+
+    {/* Button to delete all previous matches */}
+    {matchHistory.length > 0 && (
+      <button className="delete-button" onClick={handleDeleteAllPreviousMatches}>
+        Delete All Previous Matches
+      </button>
+    )}
 
 
     </div>
