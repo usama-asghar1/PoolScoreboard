@@ -218,115 +218,115 @@ function App() {
     };
     
         
-    const handleAddPlayer = async () => {
-      const playerName = prompt("Enter the name of the new player:");
+    // const handleAddPlayer = async () => {
+    //   const playerName = prompt("Enter the name of the new player:");
     
-      if (playerName) {
-        try {
-          const { data, error } = await supabase
-            .from("Leaderboard")
-            .insert([{ Name: playerName, Wins: 0, Losses: 0 }]);
+    //   if (playerName) {
+    //     try {
+    //       const { data, error } = await supabase
+    //         .from("Leaderboard")
+    //         .insert([{ Name: playerName, Wins: 0, Losses: 0 }]);
 
-            console.log(data);
+    //         console.log(data);
     
-          if (error) {
-            console.error("Error adding player:", error);
-          } else {
-            console.log("Player added successfully.");
-            fetchTableData(); // Fetch the updated table data
-          }
-        } catch (error) {
-          console.error("Error adding player:", error);
-        }
-      }
-    };
+    //       if (error) {
+    //         console.error("Error adding player:", error);
+    //       } else {
+    //         console.log("Player added successfully.");
+    //         fetchTableData(); // Fetch the updated table data
+    //       }
+    //     } catch (error) {
+    //       console.error("Error adding player:", error);
+    //     }
+    //   }
+    // };
 
-    const handleDeletePlayer = async (player) => {
-      try {
-        const { error } = await supabase
-          .from('Leaderboard')
-          .delete()
-          .eq('Name', player.Name);
+    // const handleDeletePlayer = async (player) => {
+    //   try {
+    //     const { error } = await supabase
+    //       .from('Leaderboard')
+    //       .delete()
+    //       .eq('Name', player.Name);
     
-        if (error) {
-          console.error('Error deleting player:', error);
-        } else {
-          console.log(`Player ${player.Name} deleted successfully.`);
-          fetchTableData(); // Fetch the updated table data
-        }
-      } catch (error) {
-        console.error('Error deleting player:', error);
-      }
-    };
+    //     if (error) {
+    //       console.error('Error deleting player:', error);
+    //     } else {
+    //       console.log(`Player ${player.Name} deleted successfully.`);
+    //       fetchTableData(); // Fetch the updated table data
+    //     }
+    //   } catch (error) {
+    //     console.error('Error deleting player:', error);
+    //   }
+    // };
   
-    const handleDeleteAllMatches = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('FinishedMatches')
-          .select('id');
+    // const handleDeleteAllMatches = async () => {
+    //   try {
+    //     const { data, error } = await supabase
+    //       .from('FinishedMatches')
+    //       .select('id');
     
-        if (error) {
-          console.error('Error fetching match data:', error);
-          return;
-        }
+    //     if (error) {
+    //       console.error('Error fetching match data:', error);
+    //       return;
+    //     }
     
-        const matchIds = data.map((match) => match.id);
+    //     const matchIds = data.map((match) => match.id);
     
-        if (matchIds.length === 0) {
-          console.log('No matches found.');
-          return;
-        }
+    //     if (matchIds.length === 0) {
+    //       console.log('No matches found.');
+    //       return;
+    //     }
     
-        const { error: deleteError } = await supabase
-          .from('FinishedMatches')
-          .delete()
-          .in('id', matchIds);
+    //     const { error: deleteError } = await supabase
+    //       .from('FinishedMatches')
+    //       .delete()
+    //       .in('id', matchIds);
     
-        if (deleteError) {
-          console.error('Error deleting all matches:', deleteError);
-        } else {
-          setFinishedMatches([]); // Clear the finishedMatches state
-          console.log('All matches deleted successfully.');
-        }
-      } catch (error) {
-        console.error('Error deleting all matches:', error);
-      }
-    };
+    //     if (deleteError) {
+    //       console.error('Error deleting all matches:', deleteError);
+    //     } else {
+    //       setFinishedMatches([]); // Clear the finishedMatches state
+    //       console.log('All matches deleted successfully.');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error deleting all matches:', error);
+    //   }
+    // };
     
     
-    const handleDeleteAllPreviousMatches = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('MatchHistory')
-          .select('id');
+    // const handleDeleteAllPreviousMatches = async () => {
+    //   try {
+    //     const { data, error } = await supabase
+    //       .from('MatchHistory')
+    //       .select('id');
     
-        if (error) {
-          console.error('Error fetching match history:', error);
-          return;
-        }
+    //     if (error) {
+    //       console.error('Error fetching match history:', error);
+    //       return;
+    //     }
     
-        const matchIds = data.map((match) => match.id);
+    //     const matchIds = data.map((match) => match.id);
     
-        if (matchIds.length === 0) {
-          console.log('No previous matches found.');
-          return;
-        }
+    //     if (matchIds.length === 0) {
+    //       console.log('No previous matches found.');
+    //       return;
+    //     }
     
-        const { error: deleteError } = await supabase
-          .from('MatchHistory')
-          .delete()
-          .in('id', matchIds);
+    //     const { error: deleteError } = await supabase
+    //       .from('MatchHistory')
+    //       .delete()
+    //       .in('id', matchIds);
     
-        if (deleteError) {
-          console.error('Error deleting all previous matches:', deleteError);
-        } else {
-          setMatchHistory([]); // Clear the match history in the state
-          console.log('All previous matches deleted successfully.');
-        }
-      } catch (error) {
-        console.error('Error deleting all previous matches:', error);
-      }
-    };
+    //     if (deleteError) {
+    //       console.error('Error deleting all previous matches:', deleteError);
+    //     } else {
+    //       setMatchHistory([]); // Clear the match history in the state
+    //       console.log('All previous matches deleted successfully.');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error deleting all previous matches:', error);
+    //   }
+    // };
     
     
     
