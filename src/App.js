@@ -9,11 +9,14 @@ function App() {
 
   const [tableData, setTableData] = useState([]);
 
+    /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
      
     fetchTableData();
   }, []);
 
+    /* eslint-disable react-hooks/exhaustive-deps */
+    
   const fetchTableData = async () => {
     const { data, error } = await supabase
       .from('Leaderboard')
@@ -103,6 +106,8 @@ function App() {
           const { data, error } = await supabase
             .from("Leaderboard")
             .insert([{ Name: playerName, Wins: 0, Losses: 0 }]);
+
+            console.log(data);
     
           if (error) {
             console.error("Error adding player:", error);
