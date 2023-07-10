@@ -47,3 +47,14 @@ ul li {
   margin-bottom: 16px;
   margin: 10px;
 }
+
+.delete-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: red;
+}
+
+.delete-button i {
+  font-size: 1rem;
+}
