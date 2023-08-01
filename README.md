@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# Pool Scoreboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack app that allows the user to create their own recipes, store them, and delete them. This app makes use of Node.js as the backend to store these recipes.
 
-## Available Scripts
+For this project, I built a fully-functional back-end that can perform all the CRUD operations on recipe data. This involved creating a router to handle requests and responses, and created endpoints for all CRUD operations. These endpoints were tested using Thunder Client and served as responses to HTTP requests. I also created helper functions that interact with a recipes collection and manipulated the data stored in a JSON file. Finally, I imported these helper functions into the app.js file and connected them to the API endpoints. I then hooked up the backend functionality to the frontend.
 
-In the project directory, you can run:
+## Installation and Setup Instructions
 
-### `npm start`
+Available to view on live netlify server - https://cottagepool.netlify.app/
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Alternatively,
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+You will need `node` and `npm` installed on your machine.
 
-### `npm test`
+Clone the repo:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`https://github.com/usama-asghar1/RecipeLibrary.git`
 
-### `npm run build`
+Install the required npm modules:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`npm install`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Start the application:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`npm start`
 
-### `npm run eject`
+## Usage
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Use the add player button to add the names of the players
+2. Check all the possible matches and select a current match
+3. Deteremine the winner of the match and see the table update
+4. Clear the board when done by pressing clear and delete the players
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Tech Stack
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Client:** JavaScript, HTML, CSS, React, Supabase
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Improvements
 
-## Learn More
+Potential future improvements:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Add the ability to edit recipes - The back-end functionality but have not hooked it up to the front as of yet
+- Move the data storage from the REST API to a database
+- Improve the user-experience on the front-end
+- Make the app responsive for mobile and tablet viewing
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
