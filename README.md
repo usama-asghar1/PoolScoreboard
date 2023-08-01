@@ -14,7 +14,7 @@ You will need `node` and `npm` installed on your machine.
 
 Clone the repo:
 
-`https://github.com/usama-asghar1/RecipeLibrary.git`
+`https://github.com/usama-asghar1/PoolScoreboard.git`
 
 Install the required npm modules:
 
