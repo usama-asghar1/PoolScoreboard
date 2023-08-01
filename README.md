@@ -1,8 +1,8 @@
 # Pool Scoreboard
 
-A full-stack app that allows the user to create their own recipes, store them, and delete them. This app makes use of Node.js as the backend to store these recipes.
+A full stack app to help me and my friends play 8 ball pool and track the scores in a table format.
 
-For this project, I built a fully-functional back-end that can perform all the CRUD operations on recipe data. This involved creating a router to handle requests and responses, and created endpoints for all CRUD operations. These endpoints were tested using Thunder Client and served as responses to HTTP requests. I also created helper functions that interact with a recipes collection and manipulated the data stored in a JSON file. Finally, I imported these helper functions into the app.js file and connected them to the API endpoints. I then hooked up the backend functionality to the frontend.
+Instead of using the notes app in my iPhone, I wanted to make a simple react app to keep scores of a pool tournament we were having. This app has different databases in Supabase and stores all the information so that anyone playing in the tournament can go onto the live app, check the current match being played, the current table standing and previous match history. 
 
 ## Installation and Setup Instructions
 
@@ -39,8 +39,6 @@ Start the application:
 
 Potential future improvements:
 
-- Add the ability to edit recipes - The back-end functionality but have not hooked it up to the front as of yet
-- Move the data storage from the REST API to a database
-- Improve the user-experience on the front-end
-- Make the app responsive for mobile and tablet viewing
-
+- Add user authentication: Allow users to sign up and log in to create their own game sessions where they can invite other users to be part of the tournament
+- Improve UI/UX: Make the app's design and user interface more visually appealing
+- Personal Statistics: Show the user their personal stats like total wins, total losses etc. that they can view in their profile
