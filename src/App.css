@@ -66,9 +66,6 @@ ul li {
   color: red;
 }
 
-.delete-button i {
-  font-size: 1rem;
-}
 
 .select-button {
   padding: 10px;
@@ -90,15 +87,14 @@ ul li {
   cursor: not-allowed;
 }
 
-.winner {
-  font-weight: bold;
-  color: #4caf50; 
-  border: 2px solid #4caf50;
-  border-radius: 4px;
-  padding: 4px;
-  text-align: center;
-  margin: 8px;
-
-
-
-}
+  .winner {
+    display: inline-block; /* Add inline-block display */
+    font-weight: bold;
+    color: #4caf50; 
+    border: 2px solid #4caf50;
+    border-radius: 4px;
+    padding: 4px;
+    text-align: center;
+    margin: 8px; /* Add margin to the sides */
+  }
+  

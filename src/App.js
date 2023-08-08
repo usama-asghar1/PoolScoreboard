@@ -538,6 +538,7 @@ function App() {
       <button className="delete-button" onClick={handleDeleteAllPreviousMatches}>
         Delete All Previous Matches
       </button>
+    
     )} 
 
     </div>
