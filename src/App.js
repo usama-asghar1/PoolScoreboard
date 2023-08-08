@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const supabase = createClient(
-    'https://rhyflflbuwpqnmlrqzmm.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoeWZsZmxidXdwcW5tbHJxem1tIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODg5NTU0NjMsImV4cCI6MjAwNDUzMTQ2M30.L99XjZLSB3cRhw35CAZ07BpVmjLrPKMEqLF6Meqb5VY',
+    'https://qtbpuorcjlcsjhafilvp.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0YnB1b3Jjamxjc2poYWZpbHZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE1MDk0NjMsImV4cCI6MjAwNzA4NTQ2M30.gBDPmDDgpZN3VUA_TodJZm5_9AJ3_etDsmk7Vii_JSQ',
     {
       prefer: 'single',
     }
@@ -174,7 +174,7 @@ function App() {
   const fetchMatchHistory = async () => {
     try {
       const { data, error } = await supabase
-        .from('FinishedMatches')
+        .from('MatchHistory')
         .select('*');
 
       if (error) {
@@ -256,7 +256,55 @@ function App() {
       setWinners((prevState) => ({ ...prevState, [match]: winner }));
       setTimeout(() => {
         setIsMatchOver(true);
-      }, 5000);
+      }, 1000);
+
+      try {
+        // Fetch the current match data
+        const { data, error } = await supabase
+          .from('CurrentMatch')
+          .select('*')
+          .single();
+    
+        if (error) {
+          console.error('Error fetching current match:', error);
+          return;
+        }
+    
+        if (data) {
+          // Delete the current match record
+          const { error: deleteError } = await supabase
+            .from('CurrentMatch')
+            .delete()
+            .eq('id', data.id);
+    
+          if (deleteError) {
+            console.error('Error deleting current match:', deleteError);
+          } else {
+            console.log('Current match deleted successfully.');
+            
+            // Insert a new row with 'None' as the value for CurrentMatch
+            try {
+              const { error: insertError } = await supabase
+                .from('CurrentMatch')
+                .insert([{ CurrentMatch: 'None' }]);
+              
+              if (insertError) {
+                console.error('Error inserting new row:', insertError);
+              } else {
+                console.log('New row inserted successfully.');
+                setCurrentMatch('None'); // Set the current match state to 'None'
+                setIsMatchOver(false); // Reset isMatchOver to false
+              }
+            } catch (insertError) {
+              console.error('Error inserting new row:', insertError);
+            }
+          }
+        } else {
+          console.log('No current match to delete.');
+        }
+      } catch (error) {
+        console.error('Error deleting current match:', error);
+      }
     } else {
       console.error('No winner selected for match:', match);
     }
@@ -303,39 +351,39 @@ function App() {
       }
     };
   
-    const handleDeleteAllMatches = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('FinishedMatches')
-          .select('id');
+    // const handleDeleteAllMatches = async () => {
+    //   try {
+    //     const { data, error } = await supabase
+    //       .from('FinishedMatches')
+    //       .select('id');
     
-        if (error) {
-          console.error('Error fetching match data:', error);
-          return;
-        }
+    //     if (error) {
+    //       console.error('Error fetching match data:', error);
+    //       return;
+    //     }
     
-        const matchIds = data.map((match) => match.id);
+    //     const matchIds = data.map((match) => match.id);
     
-        if (matchIds.length === 0) {
-          console.log('No matches found.');
-          return;
-        }
+    //     if (matchIds.length === 0) {
+    //       console.log('No matches found.');
+    //       return;
+    //     }
     
-        const { error: deleteError } = await supabase
-          .from('FinishedMatches')
-          .delete()
-          .in('id', matchIds);
+    //     const { error: deleteError } = await supabase
+    //       .from('FinishedMatches')
+    //       .delete()
+    //       .in('id', matchIds);
     
-        if (deleteError) {
-          console.error('Error deleting all matches:', deleteError);
-        } else {
-          setFinishedMatches([]); // Clear the finishedMatches state
-          console.log('All matches deleted successfully.');
-        }
-      } catch (error) {
-        console.error('Error deleting all matches:', error);
-      }
-    };
+    //     if (deleteError) {
+    //       console.error('Error deleting all matches:', deleteError);
+    //     } else {
+    //       setFinishedMatches([]); // Clear the finishedMatches state
+    //       console.log('All matches deleted successfully.');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error deleting all matches:', error);
+    //   }
+    // };
     
     
     const handleDeleteAllPreviousMatches = async () => {
@@ -352,7 +400,7 @@ function App() {
         const matchIds = data.map((match) => match.id);
     
         if (matchIds.length === 0) {
-          console.log('No previous matches found.');
+          console.log('No previous matches.');
           return;
         }
     
@@ -406,10 +454,14 @@ function App() {
       <h2>Current Match</h2>
 
     {isMatchOver ? (
-      <p>Match over. Choose new match</p>
+      <p>None</p>
     ) : (
       <div>
-        {currentMatch ? (
+        {currentMatch === 'None' ? (
+          <div>
+            <p>{currentMatch}</p>
+          </div>
+        ) : (
           <div>
             <p>{currentMatch}</p>
             <select
@@ -436,31 +488,34 @@ function App() {
             </button>
             
           </div>
-        ) : (
-          <p>No current match.</p>
         )}
       </div>
     )}
 
 
-      <h2>All Matches</h2>
-      <div className="matches-container">
-        <ul>
-          {generateMatches().map((match, index) => (
-            <li key={index}>
-              <span>{match}</span>
-              <button
-                className="select-button"
-                onClick={() => updateCurrentMatch(match)}
-              >
-                Select
-              </button>
-            </li>
-          ))}
-        </ul>
-          <button className="delete-button" onClick={handleDeleteAllMatches}>
+    <h2>All Matches</h2>
+<div className="matches-container">
+  {generateMatches().length > 0 ? (
+    <ul>
+      {generateMatches().map((match, index) => (
+        <li key={index}>
+          <span>{match}</span>
+          <button
+            className="select-button"
+            onClick={() => updateCurrentMatch(match)}
+          >
+            Select
+          </button>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No matches.</p>
+  )}
+
+          {/* <button className="delete-button" onClick={handleDeleteAllMatches}>
     Delete All Matches
-  </button>
+  </button> */}
       </div>
 
       <h2>Previous Matches</h2>
@@ -475,7 +530,7 @@ function App() {
         </ul>
         
       ) : (
-        <p>No previous matches found.</p>
+        <p>No previous matches.</p>
       )}
 
     
