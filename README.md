@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# Pool Scoreboard - (TEMPORARILY OFFLINE)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full stack app to help me and my friends play 8 ball pool and track the scores in a table format.
 
-## Available Scripts
+Instead of using the notes app in my iPhone, I wanted to make a simple react app to keep scores of a pool tournament we were having. This app has different databases in Supabase and stores all the information so that anyone playing in the tournament can go onto the live app, check the current match being played, the current table standing and previous match history. 
 
-In the project directory, you can run:
+## Installation and Setup Instructions
 
-### `npm start`
+Available to view on live netlify server - https://cottagepool.netlify.app/
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Alternatively,
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+You will need `node` and `npm` installed on your machine.
 
-### `npm test`
+Clone the repo:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`https://github.com/usama-asghar1/PoolScoreboard.git`
 
-### `npm run build`
+Install the required npm modules:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`npm install`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Start the application:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`npm start`
 
-### `npm run eject`
+## Usage
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Use the add player button to add the names of the players
+2. Check all the possible matches and select a current match
+3. Deteremine the winner of the match and see the table update
+4. Clear the board when done by pressing clear and delete the players
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Tech Stack
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Client:** JavaScript, HTML, CSS, React, Supabase
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Improvements
 
-## Learn More
+Potential future improvements:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Add user authentication: Allow users to sign up and log in to create their own game sessions where they can invite other users to be part of the tournament
+- Improve UI/UX: Make the app's design and user interface more visually appealing
+- Personal Statistics: Show the user their personal stats like total wins, total losses etc. that they can view in their profile
