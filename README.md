@@ -7,6 +7,8 @@ Instead of using the notes app in my iPhone, I wanted to make a simple react app
 Check below for the before image and after image.
 
 ![pool-notes](https://github.com/usama-asghar1/PoolScoreboard/assets/124916801/b98fff06-3dbf-4999-85df-c1fe9a308a7c)
+![pool-table1](https://github.com/usama-asghar1/PoolScoreboard/assets/124916801/6b82ec42-4ec8-4dbd-8e25-9f2d744f1b27)
+![pool-table2](https://github.com/usama-asghar1/PoolScoreboard/assets/124916801/8acf84eb-f43c-4d93-a66b-3b3bf38d10a0)
 
 
 ## Installation and Setup Instructions
