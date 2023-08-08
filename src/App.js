@@ -423,7 +423,7 @@ function App() {
   
   return (
     <div className="App">
-      <h1>Pool Score Board</h1>
+      <h1>Pool Scoreboard</h1>
       <table className="centered-table">
         <thead>
           <tr>
