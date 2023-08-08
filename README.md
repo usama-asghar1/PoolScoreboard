@@ -1,4 +1,4 @@
-# Pool Scoreboard - (TEMPORARILY OFFLINE)
+# Pool Scoreboard
 
 A full stack app to help me and my friends play 8 ball pool and track the scores in a table format.
 
