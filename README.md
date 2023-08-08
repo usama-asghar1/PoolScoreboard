@@ -4,7 +4,7 @@ A full stack app to help me and my friends play 8 ball pool and track the scores
 
 Instead of using the notes app in my iPhone, I wanted to make a simple react app to keep scores of a pool tournament we were having. This app has different databases in Supabase and stores all the information so that anyone playing in the tournament can go onto the live app, check the current match being played, the current table standing and previous match history. 
 
-![C6F5A112-2942-4BC6-AA83-95CAC336D372](https://github.com/usama-asghar1/PoolScoreboard/assets/124916801/fe9bba79-cfd7-4902-acfa-f0a31df4b468)
+![pool-notes](https://github.com/usama-asghar1/PoolScoreboard/assets/124916801/b98fff06-3dbf-4999-85df-c1fe9a308a7c)
 
 
 ## Installation and Setup Instructions
