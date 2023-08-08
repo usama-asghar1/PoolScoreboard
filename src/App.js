@@ -426,11 +426,11 @@ function App() {
       <h1>Pool Scoreboard</h1>
       <table className="centered-table">
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Played</th>
-            <th>Wins</th>
-            <th>Losses</th>
+          <tr className="table-heading">
+          <th className="table-heading">Name</th>
+          <th className="table-heading">Played</th>
+          <th className="table-heading">Wins</th>
+          <th className="table-heading">Losses</th>
           </tr>
         </thead>
         <tbody>
@@ -524,7 +524,7 @@ function App() {
           {matchHistory.map((match, index) => (
             <li key={index}>
               <span>{match.match}</span>
-              <span> Winner: {match.winner}</span>
+              <span className="winner"> Winner: {match.winner}</span>
             </li>
           ))}
         </ul>
